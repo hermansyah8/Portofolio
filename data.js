@@ -167,6 +167,8 @@ const PORTFOLIO = {
       "about.title": "About", "about.skills": "Skills", "about.certs": "Training and certifications", "about.langs": "Languages",
       "ct.title": "Get in touch", "ct.sub": "Feel free to reach out by email or WhatsApp.",
       "present": "Present", "now": "now",
+      "certs.cta": "View all certifications", "certs.latest": "Latest", "certs.sub": "Courses and certificates, newest first.",
+      "back": "← Back to home",
       "ft.top": "Back to top ↑"
     },
     id: {
@@ -179,6 +181,8 @@ const PORTFOLIO = {
       "about.title": "Tentang", "about.skills": "Keahlian", "about.certs": "Pelatihan dan sertifikasi", "about.langs": "Bahasa",
       "ct.title": "Hubungi saya", "ct.sub": "Silakan hubungi saya lewat email atau WhatsApp.",
       "present": "Sekarang", "now": "sekarang",
+      "certs.cta": "Lihat semua sertifikasi", "certs.latest": "Terbaru", "certs.sub": "Kursus dan sertifikat, dari yang terbaru.",
+      "back": "← Kembali ke beranda",
       "ft.top": "Kembali ke atas ↑"
     }
   }

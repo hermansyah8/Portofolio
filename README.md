@@ -8,10 +8,12 @@ Semua isi ada di `data.js`. `app.js` membaca data itu dan membangun halaman. Mau
 Yang dinamis:
 - semua bagian (proyek, pengalaman, pendidikan, skill, sertifikasi, kontak) dibangun dari `data.js`
 - tombol EN/ID mengganti semua teks, termasuk nama bulan
+- animasi: elemen hero muncul bergantian, foto melayang pelan, angka di bawah hero menghitung naik, kartu dan chip muncul bergantian saat di-scroll, titik pekerjaan saat ini berdenyut. Semua mati otomatis kalau perangkat memakai "reduce motion"
 - tanggal diformat otomatis; angka di bawah hero dihitung dari data: tahun di QA (`qaSince`), jumlah perusahaan (`experience`), jumlah tools (`tools`)
 
 ## File
-- `index.html` — kerangka halaman
+- `index.html` — kerangka halaman utama. Bagian About hanya menampilkan kartu tautan ke sertifikasi
+- `certificates.html` — halaman sendiri untuk pelatihan dan sertifikasi (daftar dari `certs` di `data.js`, terbaru di atas)
 - `data.js` — semua isi (teks `{ en, id }` tampil sesuai bahasa pengunjung; tanggal format `"YYYY-MM"`, `end: null` berarti sekarang)
 - `app.js` — render dari `data.js`, tombol bahasa, fade-in, dan reload otomatis saat ada deploy baru
 - `style.css` — tampilan terinspirasi gojek.com (bukan salinan): navbar navy, hero hijau full-width dengan foto arch, strip angka, kartu proyek, timeline. Warna di `:root`, mulai dari `--green`

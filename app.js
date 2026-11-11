@@ -1,6 +1,8 @@
-// Renders the page from data.js and handles the EN / ID switch.
+// Renders the pages from data.js, handles the EN / ID switch and the small animations.
+// Two pages share this file: index.html (data-page="home") and certificates.html (data-page="certs").
 (() => {
   const D = PORTFOLIO;
+  const page = document.body.dataset.page || "home";
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const el = (tag, cls, text) => {
@@ -9,6 +11,7 @@
     if (text != null) n.textContent = text;
     return n;
   };
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   let lang = localStorage.getItem("lang") || (navigator.language.toLowerCase().startsWith("id") ? "id" : "en");
 
@@ -29,6 +32,7 @@
     return (n.getFullYear() - y) * 12 + (n.getMonth() + 1 - m);
   };
   const yearRange = ([a, b]) => (a === b ? `${a}` : `${a} – ${b ?? ui("now")}`);
+  const certsNewestFirst = () => [...D.certs].sort((a, b) => b.date.localeCompare(a.date));
 
   // ---------- fade-in on scroll ----------
   const io = new IntersectionObserver(
@@ -43,8 +47,8 @@
   );
   const observe = () => $$(".reveal:not(.in)").forEach((n) => io.observe(n));
 
-  // ---------- renderers ----------
-  function renderStatic() {
+  // ---------- renderers: both pages ----------
+  function renderCommon() {
     $$("[data-t]").forEach((n) => (n.textContent = ui(n.dataset.t)));
     $$("[data-bind]").forEach((n) => (n.textContent = D.person[n.dataset.bind]));
 
@@ -57,8 +61,15 @@
       github: p.github
     };
     $$("[data-link]").forEach((a) => (a.href = links[a.dataset.link]));
-    $("#mail-text").textContent = p.email;
 
+    document.documentElement.lang = lang;
+    $$(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  }
+
+  // ---------- renderers: home page ----------
+  function renderHome() {
+    const p = D.person;
+    $("#mail-text").textContent = p.email;
     $("#h1").replaceChildren(`${ui("hi")} `, el("em", null, p.nick));
     $("#role").textContent = t(p.role);
     $("#lead").textContent = t(p.lead);
@@ -70,8 +81,10 @@
     $("#stat-companies").textContent = new Set(D.experience.map((x) => x.company)).size;
     $("#stat-tools").textContent = D.tools.length;
 
-    document.documentElement.lang = lang;
-    $$(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+    // card that links to the certificates page
+    const [latest] = certsNewestFirst();
+    $("#cert-count").textContent = D.certs.length;
+    $("#cert-latest").textContent = `${ui("certs.latest")}: ${latest.name} · ${fmtMonth(latest.date)}`;
   }
 
   function renderProjects() {
@@ -80,6 +93,7 @@
     const visuals = ["v-green", "v-navy", "v-mint"];
     D.projects.forEach((p, i) => {
       const card = el("article", "card reveal");
+      card.style.setProperty("--i", i % 3); // cards in one row appear one after another
       const visual = el("div", `card-visual ${visuals[i % visuals.length]}`);
       visual.append(el("span", "tag", p.category), el("span", "idx", String(i + 1).padStart(2, "0")));
       const meta = el("div", "card-meta");
@@ -96,7 +110,8 @@
     box.replaceChildren();
     items.forEach((item) => {
       const r = map(item);
-      const li = el("li", "step reveal");
+      // the current job gets a pulsing dot
+      const li = el("li", `step reveal${item.end === null ? " now" : ""}`);
       li.append(
         el("span", "step-date", fmtRange(item.start, item.end)),
         el("h3", null, r.title),
@@ -111,24 +126,73 @@
     renderSteps("#exp-list", D.experience, (x) => ({ title: x.role, where: x.company, desc: t(x.desc) }));
     renderSteps("#edu-list", D.education, (x) => ({ title: t(x.title), where: x.school, desc: t(x.desc) }));
 
-    $("#skills").replaceChildren(...D.skills.map((s) => el("li", null, s)));
-
-    const item = (name, sub) => {
-      const li = el("li");
-      li.append(el("strong", null, name), el("span", null, sub));
-      return li;
-    };
-    $("#certs").replaceChildren(
-      ...D.certs.map((c) => item(c.name, c.issuer ? `${c.issuer} · ${fmtMonth(c.date)}` : fmtMonth(c.date)))
+    $("#skills").replaceChildren(
+      ...D.skills.map((s, i) => {
+        const li = el("li", null, s);
+        li.style.setProperty("--i", i); // chips pop in one after another
+        return li;
+      })
     );
-    $("#langs").replaceChildren(...D.languages.map((l) => item(t(l.name), t(l.level))));
+
+    $("#langs").replaceChildren(
+      ...D.languages.map((l) => {
+        const li = el("li");
+        li.append(el("strong", null, t(l.name)), el("span", null, t(l.level)));
+        return li;
+      })
+    );
+  }
+
+  // ---------- renderers: certificates page ----------
+  function renderCertPage() {
+    const box = $("#cert-list");
+    box.replaceChildren();
+    certsNewestFirst().forEach((c, i) => {
+      const card = el("article", "cert-item reveal");
+      card.style.setProperty("--i", i % 3);
+      card.append(el("span", "cert-date", fmtMonth(c.date)), el("h3", null, c.name));
+      if (c.issuer) card.append(el("p", null, c.issuer));
+      box.append(card);
+    });
   }
 
   function renderAll() {
-    renderStatic();
-    renderProjects();
-    renderLists();
+    renderCommon();
+    if (page === "home") {
+      renderHome();
+      renderProjects();
+      renderLists();
+    } else {
+      renderCertPage();
+    }
     observe();
+  }
+
+  // ---------- count-up for the numbers under the hero ----------
+  function setupCountUp() {
+    const box = $(".stats");
+    if (reduceMotion || !box) return;
+    const so = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0].isIntersecting) return;
+        so.disconnect();
+        $$(".stat strong").forEach((n) => {
+          const m = n.textContent.match(/^(\d+)(.*)$/);
+          if (!m) return;
+          const target = Number(m[1]);
+          const suffix = m[2];
+          const start = performance.now();
+          const frame = (now) => {
+            const p = Math.min((now - start) / 1300, 1);
+            n.textContent = `${Math.round(target * (1 - Math.pow(1 - p, 3)))}${suffix}`;
+            if (p < 1) requestAnimationFrame(frame);
+          };
+          requestAnimationFrame(frame);
+        });
+      },
+      { threshold: 0.5 }
+    );
+    so.observe(box);
   }
 
   // ---------- language switch ----------
@@ -142,6 +206,7 @@
 
   $("#year").textContent = new Date().getFullYear();
   renderAll();
+  setupCountUp();
 
   // ---------- reload when a new version is deployed ----------
   // (compares ETag / Last-Modified of the site files).
