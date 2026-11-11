@@ -1,8 +1,6 @@
-// Renders the pages from data.js, handles the EN / ID switch and the small animations.
-// Two pages share this file: index.html (data-page="home") and certificates.html (data-page="certs").
+// Renders the page from data.js, handles the EN / ID switch and the small animations.
 (() => {
   const D = PORTFOLIO;
-  const page = document.body.dataset.page || "home";
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const el = (tag, cls, text) => {
@@ -32,7 +30,6 @@
     return (n.getFullYear() - y) * 12 + (n.getMonth() + 1 - m);
   };
   const yearRange = ([a, b]) => (a === b ? `${a}` : `${a} – ${b ?? ui("now")}`);
-  const certsNewestFirst = () => [...D.certs].sort((a, b) => b.date.localeCompare(a.date));
 
   // ---------- fade-in on scroll ----------
   const io = new IntersectionObserver(
@@ -47,8 +44,8 @@
   );
   const observe = () => $$(".reveal:not(.in)").forEach((n) => io.observe(n));
 
-  // ---------- renderers: both pages ----------
-  function renderCommon() {
+  // ---------- renderers ----------
+  function renderStatic() {
     $$("[data-t]").forEach((n) => (n.textContent = ui(n.dataset.t)));
     $$("[data-bind]").forEach((n) => (n.textContent = D.person[n.dataset.bind]));
 
@@ -61,15 +58,8 @@
       github: p.github
     };
     $$("[data-link]").forEach((a) => (a.href = links[a.dataset.link]));
-
-    document.documentElement.lang = lang;
-    $$(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
-  }
-
-  // ---------- renderers: home page ----------
-  function renderHome() {
-    const p = D.person;
     $("#mail-text").textContent = p.email;
+
     $("#h1").replaceChildren(`${ui("hi")} `, el("em", null, p.nick));
     $("#role").textContent = t(p.role);
     $("#lead").textContent = t(p.lead);
@@ -81,10 +71,8 @@
     $("#stat-companies").textContent = new Set(D.experience.map((x) => x.company)).size;
     $("#stat-tools").textContent = D.tools.length;
 
-    // card that links to the certificates page
-    const [latest] = certsNewestFirst();
-    $("#cert-count").textContent = D.certs.length;
-    $("#cert-latest").textContent = `${ui("certs.latest")}: ${latest.name} · ${fmtMonth(latest.date)}`;
+    document.documentElement.lang = lang;
+    $$(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
   }
 
   function renderProjects() {
@@ -122,9 +110,27 @@
     });
   }
 
+  // training and certifications, newest first
+  function renderCerts() {
+    const box = $("#cert-list");
+    box.replaceChildren();
+    [...D.certs]
+      .sort((a, b) => b.date.localeCompare(a.date))
+      .forEach((c, i) => {
+        const li = el("li", "cert-row");
+        li.style.setProperty("--i", i);
+        const info = el("div");
+        info.append(el("h3", null, c.name));
+        if (c.issuer) info.append(el("p", null, c.issuer));
+        li.append(el("span", "cert-date", fmtMonth(c.date)), info);
+        box.append(li);
+      });
+  }
+
   function renderLists() {
     renderSteps("#exp-list", D.experience, (x) => ({ title: x.role, where: x.company, desc: t(x.desc) }));
     renderSteps("#edu-list", D.education, (x) => ({ title: t(x.title), where: x.school, desc: t(x.desc) }));
+    renderCerts();
 
     $("#skills").replaceChildren(
       ...D.skills.map((s, i) => {
@@ -135,36 +141,19 @@
     );
 
     $("#langs").replaceChildren(
-      ...D.languages.map((l) => {
+      ...D.languages.map((l, i) => {
         const li = el("li");
+        li.style.setProperty("--i", D.skills.length + i); // pops in after the skills
         li.append(el("strong", null, t(l.name)), el("span", null, t(l.level)));
         return li;
       })
     );
   }
 
-  // ---------- renderers: certificates page ----------
-  function renderCertPage() {
-    const box = $("#cert-list");
-    box.replaceChildren();
-    certsNewestFirst().forEach((c, i) => {
-      const card = el("article", "cert-item reveal");
-      card.style.setProperty("--i", i % 3);
-      card.append(el("span", "cert-date", fmtMonth(c.date)), el("h3", null, c.name));
-      if (c.issuer) card.append(el("p", null, c.issuer));
-      box.append(card);
-    });
-  }
-
   function renderAll() {
-    renderCommon();
-    if (page === "home") {
-      renderHome();
-      renderProjects();
-      renderLists();
-    } else {
-      renderCertPage();
-    }
+    renderStatic();
+    renderProjects();
+    renderLists();
     observe();
   }
 

@@ -12,8 +12,7 @@ Yang dinamis:
 - tanggal diformat otomatis; angka di bawah hero dihitung dari data: tahun di QA (`qaSince`), jumlah perusahaan (`experience`), jumlah tools (`tools`)
 
 ## File
-- `index.html` — kerangka halaman utama. Bagian About hanya menampilkan kartu tautan ke sertifikasi
-- `certificates.html` — halaman sendiri untuk pelatihan dan sertifikasi (daftar dari `certs` di `data.js`, terbaru di atas)
+- `index.html` — kerangka halaman. Satu halaman saja; pelatihan dan sertifikasi ada di kartu sendiri di bawah Education (daftar dari `certs` di `data.js`, terbaru di atas)
 - `data.js` — semua isi (teks `{ en, id }` tampil sesuai bahasa pengunjung; tanggal format `"YYYY-MM"`, `end: null` berarti sekarang)
 - `app.js` — render dari `data.js`, tombol bahasa, fade-in, dan reload otomatis saat ada deploy baru
 - `style.css` — tampilan terinspirasi gojek.com (bukan salinan): navbar navy, hero hijau full-width dengan foto arch, strip angka, kartu proyek, timeline. Warna di `:root`, mulai dari `--green`

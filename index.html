@@ -85,35 +85,34 @@
       </section>
     </div>
 
+    <!-- SKILLS, LANGUAGES, CERTIFICATIONS: separate cards in one grid -->
+    <section class="section wrap" id="toolkit">
+      <div class="panels">
+        <div class="panel panel-certs reveal" id="certifications">
+          <h2 data-t="about.certs">Training and certifications</h2>
+          <ul class="cert-list" id="cert-list"></ul>
+        </div>
+        <div class="panel panel-skills reveal">
+          <h2 data-t="about.skills">Skills</h2>
+          <ul class="chips" id="skills"></ul>
+        </div>
+        <div class="panel panel-langs reveal" style="--i:1">
+          <h2 data-t="about.langs">Languages</h2>
+          <ul class="lang-list" id="langs"></ul>
+        </div>
+      </div>
+    </section>
+
     <!-- ABOUT -->
     <section class="about-band" id="about">
       <div class="wrap about">
         <div class="reveal">
           <h2 data-t="about.title">About</h2>
           <p class="big" id="about1"></p>
-          <p id="about2"></p>
         </div>
 
-        <div class="about-side reveal">
-          <div class="block">
-            <h4 data-t="about.skills">Skills</h4>
-            <ul class="chips" id="skills"></ul>
-          </div>
-          <div class="block">
-            <h4 data-t="about.certs">Training and certifications</h4>
-            <a href="certificates.html" class="cert-card">
-              <span class="cert-count" id="cert-count">7</span>
-              <span class="cert-text">
-                <strong data-t="certs.cta">View all certifications</strong>
-                <span id="cert-latest"></span>
-              </span>
-              <span class="cert-arrow" aria-hidden="true">→</span>
-            </a>
-          </div>
-          <div class="block">
-            <h4 data-t="about.langs">Languages</h4>
-            <ul class="certs" id="langs"></ul>
-          </div>
+        <div class="reveal" style="--i:1">
+          <p class="about-more" id="about2"></p>
         </div>
       </div>
     </section>
