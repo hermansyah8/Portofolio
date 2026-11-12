@@ -1,6 +1,6 @@
 # Porto Diki
 
-Website portofolio Asep Diki Hermansyah (Software QA Engineer). HTML, CSS dan JavaScript biasa, tanpa build tool dan tanpa backend. Isi diambil dari `CVATSASEPDIKIHERMANSYAHV3.pdf`.
+Website portofolio Asep Diki Hermansyah (Software QA Engineer). HTML, CSS dan JavaScript biasa, tanpa build tool dan tanpa backend.
 
 ## Cara kerja (halaman dinamis)
 Semua isi ada di `data.js`. `app.js` membaca data itu dan membangun halaman. Mau ubah proyek, pengalaman, skill atau kontak? Edit `data.js` saja, tidak perlu menyentuh HTML.
@@ -16,7 +16,6 @@ Yang dinamis:
 - `data.js` — semua isi (teks `{ en, id }` tampil sesuai bahasa pengunjung; tanggal format `"YYYY-MM"`, `end: null` berarti sekarang)
 - `app.js` — render dari `data.js`, tombol bahasa, fade-in, dan reload otomatis saat ada deploy baru
 - `style.css` — tampilan terinspirasi gojek.com (bukan salinan): navbar navy, hero hijau full-width dengan foto arch, strip angka, kartu proyek, timeline. Warna di `:root`, mulai dari `--green`
-- `CVATSASEPDIKIHERMANSYAHV3.pdf` — CV. Kalau diganti, ubah `cv` di `data.js`
 - `assets/diki.jpg` — foto profil di hero (salinan kecil dari file WhatsApp Image di folder ini; file asli boleh dihapus)
 - `vercel.json` — header cache untuk Vercel
 

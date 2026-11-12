@@ -10,7 +10,6 @@ const PORTFOLIO = {
     whatsapp: "6287783871081",
     linkedin: "https://www.linkedin.com/in/asep-diki-hermansyah-80b8ab194",
     github: "https://github.com/hermansyah8",
-    cv: "CVATSASEPDIKIHERMANSYAHV3.pdf",
     role: { en: "Software QA Engineer · East Jakarta", id: "Software QA Engineer · Jakarta Timur" },
     lead: {
       en: "I'm a Software QA Engineer with over 4 years of experience testing web, mobile and core banking systems, by hand and with automation. Right now I work on the BRIVA and Cash Card projects at Bank BRI, focusing on API testing.",
@@ -160,7 +159,7 @@ const PORTFOLIO = {
     en: {
       "nav.proj": "Projects", "nav.exp": "Experience", "nav.edu": "Education", "nav.about": "About", "nav.contact": "Contact",
       "hi": "Hi, I'm",
-      "hero.cta": "See my work", "hero.cv": "Download CV", "hero.mail": "Email me",
+      "hero.cta": "See my work", "hero.mail": "Email me",
       "stat.1": "Years in QA", "stat.2": "Companies", "stat.3": "Testing tools",
       "proj.title": "Projects", "proj.sub": "Main projects from my QA work.",
       "exp.title": "Work Experience", "edu.title": "Education",
@@ -172,7 +171,7 @@ const PORTFOLIO = {
     id: {
       "nav.proj": "Proyek", "nav.exp": "Pengalaman", "nav.edu": "Pendidikan", "nav.about": "Tentang", "nav.contact": "Kontak",
       "hi": "Hai, saya",
-      "hero.cta": "Lihat proyek", "hero.cv": "Unduh CV", "hero.mail": "Kirim email",
+      "hero.cta": "Lihat proyek", "hero.mail": "Kirim email",
       "stat.1": "Tahun di bidang QA", "stat.2": "Perusahaan", "stat.3": "Tools testing",
       "proj.title": "Proyek", "proj.sub": "Proyek utama dari pekerjaan QA saya.",
       "exp.title": "Pengalaman Kerja", "edu.title": "Pendidikan",

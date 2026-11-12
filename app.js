@@ -51,7 +51,6 @@
 
     const p = D.person;
     const links = {
-      cv: p.cv,
       mail: `mailto:${p.email}`,
       wa: `https://wa.me/${p.whatsapp}`,
       linkedin: p.linkedin,
