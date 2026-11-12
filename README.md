@@ -8,7 +8,17 @@ Semua isi ada di `data.js`. `app.js` membaca data itu dan membangun halaman. Mau
 Yang dinamis:
 - semua bagian (proyek, pengalaman, pendidikan, skill, sertifikasi, kontak) dibangun dari `data.js`
 - tombol EN/ID mengganti semua teks, termasuk nama bulan
-- animasi: elemen hero muncul bergantian, foto melayang pelan, angka di bawah hero menghitung naik, kartu dan chip muncul bergantian saat di-scroll, titik pekerjaan saat ini berdenyut. Semua mati otomatis kalau perangkat memakai "reduce motion"
+- animasi (semua mati otomatis kalau perangkat memakai "reduce motion"):
+  - loading: layar gelap dengan logo D dan bar mengisi, lalu naik membuka halaman (juga jadi transisi masuk halaman); hero main setelah itu
+  - scroll reveal dan fade/slide in: kartu, langkah timeline, chip, panel masuk bergantian dari bawah, kiri, atau kanan; judul section muncul dengan efek wipe
+  - scroll trigger: elemen beranimasi saat masuk 15% layar dan main lagi setiap di-scroll balik dari bawah; garis timeline terisi mengikuti scroll, angka besar di kartu proyek bergeser; ikon mouse di hero menunjukkan "scroll"
+  - fade out: hero memudar saat di-scroll turun
+  - parallax: foto, panel, dan bulatan cahaya di hero bergerak dengan kecepatan beda saat scroll
+  - smooth scroll: klik menu atau tombol anchor menggulung dengan easing sendiri; bar progres di atas halaman dan menu aktif mengikuti posisi
+  - hover: garis menu tumbuh, kartu dan panel terangkat, foto membesar pelan, titik timeline membesar
+  - micro interaction: tombol menekan (scale), kilau lewat saat hover, ripple di titik klik
+  - transisi bahasa: halaman memudar, teks diganti, lalu muncul lagi
+  - angka di bawah hero menghitung naik; titik pekerjaan saat ini berdenyut
 - tanggal diformat otomatis; angka di bawah hero dihitung dari data: tahun di QA (`qaSince`), jumlah perusahaan (`experience`), jumlah tools (`tools`)
 
 ## File

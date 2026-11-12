@@ -12,8 +12,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <script>
+    // "js" lets the CSS hold the intro until the loader leaves; the timer stops a broken script from trapping the page
+    document.documentElement.classList.add("js");
+    setTimeout(function () {
+      var l = document.getElementById("loader");
+      if (l) l.classList.add("done");
+      document.documentElement.classList.add("ready");
+    }, 7000);
+  </script>
+  <noscript><style>.loader { display: none; }</style></noscript>
 </head>
-<body data-page="home">
+<body>
+  <div class="loader" id="loader" aria-hidden="true">
+    <span class="loader-logo">D</span>
+    <span class="loader-bar"><i></i></span>
+  </div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
 
   <header class="nav">
     <div class="wrap nav-inner">
@@ -53,6 +68,7 @@
         </div>
         <img src="assets/diki.jpg" alt="Asep Diki Hermansyah" class="hero-photo" width="1000" height="666" />
       </div>
+      <a href="#projects" class="scroll-cue" aria-label="Scroll down"></a>
     </section>
 
     <!-- STATS (computed from data.js) -->
