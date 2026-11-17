@@ -132,21 +132,52 @@ const PORTFOLIO = {
     "DBeaver", "SQL Server", "Kibana", "Jira", "AIO Tests", "Confluence", "Excel"
   ],
 
-  // issuer = who organised the course. url (optional) = link or file of the certificate, e.g. "https://..." or "certificates/bootcamp.pdf";
+  // issuer = who organised the course. date = "YYYY-MM" (optional; entries without a date go last).
+  // url = link or file of the certificate, e.g. "https://..." or "certificates/bootcamp.pdf";
   // a row with a url becomes a link that opens the certificate directly
   certs: [
-    { name: "Software Testing Bootcamp", issuer: "Udemy", date: "2024-05" },
-    { name: "Software Quality Assurance", issuer: "Juara Coding", date: "2022-05" },
-    { name: "Basic Spoken English Program", issuer: "Central Course", date: "2025-09" },
-    { name: "Junior Web Programming", issuer: null, date: "2019-10" }, // TODO: the CV does not name the organiser; put it in issuer
-    { name: "Fundamental DBMS", issuer: "Gunadarma University", date: "2018-07" },
-    { name: "Java Programming Language Fundamentals", issuer: "Gunadarma University", date: "2018-01" },
-    { name: "Fundamental Networking", issuer: "Gunadarma University", date: "2016-02" }
+    {
+      name: "Software Testing Bootcamp", issuer: "Udemy", date: "2024-05",
+      url: "https://www.udemy.com/certificate/UC-7e2774dd-c629-4a76-837a-861289ca0f14/"
+    },
+    {
+      name: "Software Quality Assurance", issuer: "Juara Coding", date: "2022-05",
+      url: "https://drive.google.com/file/d/1DxBs6KLpGPRyzu7V2qWZyIh45vogMWJP/view"
+    },
+    {
+      name: "Basic Spoken English Program", issuer: "Central Course", date: "2025-09",
+      url: "https://drive.google.com/file/d/1Ay8RT9jnsiz7pW-3NTRgGTW1CjlFS2nA/view"
+    },
+    {
+      name: "Junior Web Programming", issuer: "Badan Nasional Sertifikasi Profesi (BNSP)", date: "2019-10",
+      url: "https://drive.google.com/file/d/1p9DM_AGeTXQGXIzvBpcs7P165O-aEF0n/view?usp=sharing"
+    },
+    {
+      name: "Fundamental DBMS", issuer: "Gunadarma University", date: "2018-07",
+      url: "https://drive.google.com/file/d/1-WWuVumusYIunRwsRTOZCfjFaQk2VbCH/view?usp=sharing"
+    },
+    {
+      name: "Java Programming Language Fundamentals", issuer: "Gunadarma University", date: "2018-01",
+      url: "https://drive.google.com/file/d/11pMXNO4DX93enJBI_fXAc06vzQ_gz8OK/view?usp=sharing"
+    },
+    {
+      name: "Fundamental Networking", issuer: "Gunadarma University", date: "2016-02",
+      url: "https://drive.google.com/file/d/1rK9OzL3ND4KpErTMkTahEuiNjDxNdD5K/view?usp=sharing"
+    },
+    // TODO: add date: "YYYY-MM" to the two entries below (the certificate pages do not show it)
+    {
+      name: "SQL (Intermediate)", issuer: "HackerRank",
+      url: "https://www.hackerrank.com/certificates/ee79093f325d"
+    },
+    {
+      name: "Katalon Studio Beginner", issuer: "Katalon",
+      url: "https://drive.google.com/file/d/1cJIJ0Oo9QngB5WN2ybOtAIEYnQGM-c43/view"
+    }
   ],
 
   languages: [
-    { name: { en: "Indonesian", id: "Indonesia" }, level: { en: "Native", id: "Bahasa ibu" } },
-    { name: { en: "English", id: "Inggris" }, level: { en: "Professional working proficiency", id: "Kemampuan kerja profesional" } }
+    { name: { en: "Indonesian", id: "Bahasa Indonesia" }, level: { en: "Native", id: "Penutur asli" } },
+    { name: { en: "English", id: "Bahasa Inggris" }, level: { en: "Professional working proficiency", id: "Kemampuan kerja profesional" } }
   ],
 
   // interface text

@@ -107,7 +107,7 @@
     const box = $("#cert-list");
     box.replaceChildren();
     [...D.certs]
-      .sort((a, b) => b.date.localeCompare(a.date))
+      .sort((a, b) => (b.date || "").localeCompare(a.date || "")) // no date = last
       .forEach((c, i) => {
         const li = el("li", "cert-row");
         li.style.setProperty("--i", i);
@@ -115,7 +115,7 @@
         const info = el("div");
         info.append(el("h3", null, c.name));
         if (c.issuer) info.append(el("p", null, c.issuer));
-        inner.append(el("span", "cert-date", fmtMonth(c.date)), info);
+        inner.append(el("span", "cert-date", c.date ? fmtMonth(c.date) : ""), info);
         if (c.url) {
           inner.href = c.url;
           inner.target = "_blank";

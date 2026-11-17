@@ -135,9 +135,9 @@ h1 em { display: block; font-style: normal; color: var(--mint); }
 
 /* about: dark band */
 .about-band { margin-top: clamp(64px, 8vw, 104px); background: var(--navy); color: #fff; border-radius: 48px; padding: clamp(48px, 7vw, 96px) 0; }
-.about { display: grid; grid-template-columns: 1fr 2fr; gap: clamp(24px, 6vw, 80px); align-items: start; }
+.about { display: grid; grid-template-columns: 1fr; gap: 22px; }
 .about h2 { margin: 0; }
-.about .big { font-size: clamp(18px, 2vw, 24px); line-height: 1.6; font-weight: 500; color: #fff; margin: 0; }
+.about .big { font-size: clamp(18px, 2vw, 24px); line-height: 1.6; font-weight: 500; color: #fff; margin: 0; max-width: 62rem; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chips li { font-size: 14px; padding: 7px 16px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--bg); transition: background .2s, border-color .2s, color .2s; }
 .chips li:hover { background: var(--green); border-color: var(--green); color: #fff; }
@@ -277,6 +277,7 @@ a.cert-inner { padding-right: 30px; }
 .cert-row:hover .cert-arrow { opacity: 1; translate: 3px -3px; }
 .panel-certs.in .cert-row { animation: fadeUp .5s cubic-bezier(.2, .7, .2, 1) backwards; animation-delay: calc(var(--i, 0) * 70ms + .15s); }
 .cert-date { justify-self: start; margin-top: 2px; white-space: nowrap; font-size: 13px; font-weight: 600; color: var(--green-dark); background: var(--green-soft); padding: 3px 12px; border-radius: 999px; }
+.cert-date:empty { visibility: hidden; } /* a certificate without a date keeps the column, shows no pill */
 .cert-row h3 { font-size: 17px; line-height: 1.25; }
 .cert-row p { margin: 3px 0 0; color: var(--ink-2); font-size: 14px; }
 @media (max-width: 860px) {
