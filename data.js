@@ -164,13 +164,12 @@ const PORTFOLIO = {
       name: "Fundamental Networking", issuer: "Gunadarma University", date: "2016-02",
       url: "https://drive.google.com/file/d/1rK9OzL3ND4KpErTMkTahEuiNjDxNdD5K/view?usp=sharing"
     },
-    // TODO: add date: "YYYY-MM" to the two entries below (the certificate pages do not show it)
     {
-      name: "SQL (Intermediate)", issuer: "HackerRank",
+      name: "SQL (Intermediate)", issuer: "HackerRank", date: "2026-02",
       url: "https://www.hackerrank.com/certificates/ee79093f325d"
     },
     {
-      name: "Katalon Studio Beginner", issuer: "Katalon",
+      name: "Katalon Studio Beginner", issuer: "Udemy", date: "2025-09",
       url: "https://drive.google.com/file/d/1cJIJ0Oo9QngB5WN2ybOtAIEYnQGM-c43/view"
     }
   ],
