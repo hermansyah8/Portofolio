@@ -5,7 +5,6 @@ const PORTFOLIO = {
     name: "Asep Diki Hermansyah",
     nick: "Diki",
     timezone: "Asia/Jakarta",
-    qaSince: "2022-09", // start of the first QA job, used for the "4+ YRS · QA" sticker
     email: "asepdiki54@gmail.com",
     whatsapp: "6287783871081",
     linkedin: "https://www.linkedin.com/in/asep-diki-hermansyah-80b8ab194",
@@ -15,24 +14,18 @@ const PORTFOLIO = {
       en: "I'm a Software QA Engineer with over 4 years of experience testing web, mobile and core banking systems, by hand and with automation. Right now I work on the BRIVA and Cash Card projects at Bank BRI, focusing on API testing.",
       id: "Saya Software QA Engineer dengan pengalaman lebih dari 4 tahun menguji sistem web, mobile dan core banking, secara manual maupun dengan automation. Saat ini saya menangani proyek BRIVA dan Cash Card di Bank BRI, dengan fokus pada API testing."
     },
-    about1: {
-      en: "My path into QA started in helpdesk roles at Bank Central Asia and SehatQ, where I reproduced bugs and escalated them. Since 2022 I've been a QA engineer on enterprise, finance and banking systems.",
-      id: "Perjalanan saya ke dunia QA dimulai dari peran helpdesk di Bank Central Asia dan SehatQ, tempat saya mereproduksi bug lalu mengeskalasinya. Sejak 2022 saya menjadi QA engineer di sistem enterprise, keuangan dan perbankan."
-    },
-    about2: {
-      en: "I work in Agile/Scrum teams and know the SDLC and STLC well. I like tracing a defect to its root cause and working with developers, product owners and business analysts so releases stay reliable, even on tight schedules.",
-      id: "Saya bekerja di tim Agile/Scrum dan memahami SDLC serta STLC dengan baik. Saya suka menelusuri defect sampai akar masalahnya dan bekerja sama dengan developer, product owner dan business analyst agar rilis tetap andal, bahkan di jadwal yang ketat."
+    // the About text is the Summary from the CV
+    about: {
+      en: "Detail-oriented and results-driven Software Quality Assurance (SQA) Engineer with over 4 years of proven experience in manual, automated, and API testing across web, mobile, and core banking platforms. Solid mastery of Software Development Life Cycle (SDLC) and Software Testing Life Cycle (STLC) methodologies within Agile/Scrum environments. Proficient with testing tools and frameworks including Postman, Cypress, Playwright, Katalon Studio, and DBeaver. Fast learner with strong analytical skills, adept at defect root-cause analysis, cross-functional collaboration, and ensuring high system reliability under tight release cycles.",
+      id: "Software Quality Assurance (SQA) Engineer yang teliti dan berorientasi hasil, dengan pengalaman lebih dari 4 tahun dalam manual, automated, dan API testing di platform web, mobile, dan core banking. Menguasai metodologi Software Development Life Cycle (SDLC) dan Software Testing Life Cycle (STLC) di lingkungan Agile/Scrum. Mahir memakai tools dan framework testing seperti Postman, Cypress, Playwright, Katalon Studio, dan DBeaver. Cepat belajar dengan kemampuan analisis yang kuat, terampil dalam analisis akar masalah defect, kolaborasi lintas tim, dan menjaga keandalan sistem di siklus rilis yang ketat."
     }
   },
-
-  // counted in the "Testing tools" number under the hero
-  tools: ["Postman", "Cypress", "Playwright", "Katalon Studio", "Selenium", "JMeter", "k6"],
 
   projects: [
     {
       category: "API Testing",
       years: [2026, null],
-      title: { en: "BRIVA and Cash Card — Bank BRI", id: "BRIVA dan Cash Card — Bank BRI" },
+      title: { en: "BRIVA and Cash Card", id: "BRIVA dan Cash Card" },
       desc: {
         en: "End-to-end API testing of core banking integration services: contract and payload checks, ledger validation in the database, and failure tracing through logs.",
         id: "API testing end-to-end untuk layanan integrasi core banking: pengecekan kontrak dan payload, validasi ledger di database, dan pelacakan kegagalan lewat log."
@@ -42,7 +35,7 @@ const PORTFOLIO = {
     {
       category: "E2E Testing",
       years: [2022, 2025],
-      title: { en: "Daihatsuku Revamp and OSP MRA — Astra", id: "Daihatsuku Revamp dan OSP MRA — Astra" },
+      title: { en: "Daihatsuku Revamp and OSP MRA", id: "Daihatsuku Revamp dan OSP MRA" },
       desc: {
         en: "Functional and E2E testing for multi-platform web and mobile apps, with test plans, test cases and bugs tracked through the full lifecycle.",
         id: "Functional dan E2E testing untuk aplikasi web dan mobile multi-platform, dengan test plan, test case, dan bug yang dilacak sampai tuntas."
@@ -52,7 +45,7 @@ const PORTFOLIO = {
     {
       category: "Automation",
       years: [2025, 2026],
-      title: { en: "API Automation — KB Finansia", id: "API Automation — KB Finansia" },
+      title: { en: "API Automation", id: "API Automation" },
       desc: {
         en: "Cypress API automation plus manual API testing to check endpoints, data accuracy and reliability.",
         id: "API automation dengan Cypress ditambah API testing manual untuk memeriksa endpoint, akurasi data dan keandalan."
@@ -139,11 +132,13 @@ const PORTFOLIO = {
     "DBeaver", "SQL Server", "Kibana", "Jira", "AIO Tests", "Confluence", "Excel"
   ],
 
+  // issuer = who organised the course. url (optional) = link or file of the certificate, e.g. "https://..." or "certificates/bootcamp.pdf";
+  // a row with a url becomes a link that opens the certificate directly
   certs: [
     { name: "Software Testing Bootcamp", issuer: "Udemy", date: "2024-05" },
     { name: "Software Quality Assurance", issuer: "Juara Coding", date: "2022-05" },
     { name: "Basic Spoken English Program", issuer: "Central Course", date: "2025-09" },
-    { name: "Junior Web Programming", issuer: null, date: "2019-10" },
+    { name: "Junior Web Programming", issuer: null, date: "2019-10" }, // TODO: the CV does not name the organiser; put it in issuer
     { name: "Fundamental DBMS", issuer: "Gunadarma University", date: "2018-07" },
     { name: "Java Programming Language Fundamentals", issuer: "Gunadarma University", date: "2018-01" },
     { name: "Fundamental Networking", issuer: "Gunadarma University", date: "2016-02" }
@@ -160,7 +155,7 @@ const PORTFOLIO = {
       "nav.proj": "Projects", "nav.exp": "Experience", "nav.edu": "Education", "nav.about": "About", "nav.contact": "Contact",
       "hi": "Hi, I'm",
       "hero.cta": "See my work", "hero.mail": "Email me",
-      "stat.1": "Years in QA", "stat.2": "Companies", "stat.3": "Testing tools",
+      "certs.open": "Open certificate",
       "proj.title": "Projects", "proj.sub": "Main projects from my QA work.",
       "exp.title": "Work Experience", "edu.title": "Education",
       "about.title": "About", "about.skills": "Skills", "about.certs": "Training and certifications", "about.langs": "Languages",
@@ -172,7 +167,7 @@ const PORTFOLIO = {
       "nav.proj": "Proyek", "nav.exp": "Pengalaman", "nav.edu": "Pendidikan", "nav.about": "Tentang", "nav.contact": "Kontak",
       "hi": "Hai, saya",
       "hero.cta": "Lihat proyek", "hero.mail": "Kirim email",
-      "stat.1": "Tahun di bidang QA", "stat.2": "Perusahaan", "stat.3": "Tools testing",
+      "certs.open": "Buka sertifikat",
       "proj.title": "Proyek", "proj.sub": "Proyek utama dari pekerjaan QA saya.",
       "exp.title": "Pengalaman Kerja", "edu.title": "Pendidikan",
       "about.title": "Tentang", "about.skills": "Keahlian", "about.certs": "Pelatihan dan sertifikasi", "about.langs": "Bahasa",

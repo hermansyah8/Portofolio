@@ -10,22 +10,24 @@ Yang dinamis:
 - tombol EN/ID mengganti semua teks, termasuk nama bulan
 - animasi (semua mati otomatis kalau perangkat memakai "reduce motion"):
   - loading: layar gelap dengan logo D dan bar mengisi, lalu naik membuka halaman (juga jadi transisi masuk halaman); hero main setelah itu
-  - scroll reveal dan fade/slide in: kartu, langkah timeline, chip, panel masuk bergantian dari bawah, kiri, atau kanan; judul section muncul dengan efek wipe
-  - scroll trigger: elemen beranimasi saat masuk 15% layar dan main lagi setiap di-scroll balik dari bawah; garis timeline terisi mengikuti scroll, angka besar di kartu proyek bergeser; ikon mouse di hero menunjukkan "scroll"
+  - scroll reveal dan fade/slide in: kartu proyek, kartu pengalaman dan pendidikan (kolom kiri dari kiri, kolom kanan dari kanan), chip, panel masuk bergantian; judul section muncul dengan efek wipe
+  - scroll trigger: elemen beranimasi saat masuk 15% layar dan main lagi setiap di-scroll balik dari bawah; angka besar di kartu proyek bergeser; ikon mouse di hero menunjukkan "scroll"
   - fade out: hero memudar saat di-scroll turun
   - parallax: foto, panel, dan bulatan cahaya di hero bergerak dengan kecepatan beda saat scroll
   - smooth scroll: klik menu atau tombol anchor menggulung dengan easing sendiri; bar progres di atas halaman dan menu aktif mengikuti posisi
-  - hover: garis menu tumbuh, kartu dan panel terangkat, foto membesar pelan, titik timeline membesar
+  - hover: garis menu tumbuh, kartu dan panel terangkat, foto membesar pelan
   - micro interaction: tombol menekan (scale), kilau lewat saat hover, ripple di titik klik
   - transisi bahasa: halaman memudar, teks diganti, lalu muncul lagi
-  - angka di bawah hero menghitung naik; titik pekerjaan saat ini berdenyut
-- tanggal diformat otomatis; angka di bawah hero dihitung dari data: tahun di QA (`qaSince`), jumlah perusahaan (`experience`), jumlah tools (`tools`)
+  - titik hijau di kartu pekerjaan saat ini berdenyut
+- tanggal diformat otomatis (nama bulan ikut bahasa)
+- teks About diambil dari Summary di CV (`about` di `data.js`)
+- sertifikat: isi `issuer` (penyelenggara) dan `url` (link atau file sertifikat, misalnya `"https://..."` atau `"certificates/bootcamp.pdf"`). Baris yang punya `url` menjadi link dengan tanda panah ↗ dan membuka sertifikatnya langsung
 
 ## File
 - `index.html` — kerangka halaman. Satu halaman saja; pelatihan dan sertifikasi ada di kartu sendiri di bawah Education (daftar dari `certs` di `data.js`, terbaru di atas)
 - `data.js` — semua isi (teks `{ en, id }` tampil sesuai bahasa pengunjung; tanggal format `"YYYY-MM"`, `end: null` berarti sekarang)
 - `app.js` — render dari `data.js`, tombol bahasa, fade-in, dan reload otomatis saat ada deploy baru
-- `style.css` — tampilan terinspirasi gojek.com (bukan salinan): navbar navy, hero hijau full-width dengan foto arch, strip angka, kartu proyek, timeline. Warna di `:root`, mulai dari `--green`
+- `style.css` — tampilan terinspirasi gojek.com (bukan salinan): navbar navy, hero hijau full-width dengan foto arch, kartu proyek, kartu pengalaman dan pendidikan (Work Experience dua kolom, Education di bawahnya). Warna di `:root`, mulai dari `--green`
 - `assets/diki.jpg` — foto profil di hero (salinan kecil dari file WhatsApp Image di folder ini; file asli boleh dihapus)
 - `vercel.json` — header cache untuk Vercel
 

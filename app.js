@@ -12,8 +12,6 @@
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const root = document.documentElement;
   root.style.scrollBehavior = "auto"; // smooth scrolling is done below, with its own easing
-  let markReady;
-  const whenReady = new Promise((res) => (markReady = res)); // resolves when the loader has left
 
   let lang = localStorage.getItem("lang") || (navigator.language.toLowerCase().startsWith("id") ? "id" : "en");
 
@@ -28,11 +26,6 @@
     return new Date(y, m - 1, 1).toLocaleDateString(locale(), { month: "short", year: "numeric" });
   };
   const fmtRange = (s, e) => `${fmtMonth(s)} – ${e ? fmtMonth(e) : ui("present")}`;
-  const monthsSince = (ym) => {
-    const [y, m] = parts(ym);
-    const n = new Date();
-    return (n.getFullYear() - y) * 12 + (n.getMonth() + 1 - m);
-  };
   const yearRange = ([a, b]) => (a === b ? `${a}` : `${a} – ${b ?? ui("now")}`);
 
   // ---------- fade-in on scroll ----------
@@ -66,13 +59,7 @@
     $("#h1").replaceChildren(`${ui("hi")} `, el("em", null, p.nick));
     $("#role").textContent = t(p.role);
     $("#lead").textContent = t(p.lead);
-    $("#about1").textContent = t(p.about1);
-    $("#about2").textContent = t(p.about2);
-
-    // numbers under the hero are computed, so they stay true as data.js changes
-    $("#stat-years").textContent = `${Math.floor(monthsSince(p.qaSince) / 12)}+`;
-    $("#stat-companies").textContent = new Set(D.experience.map((x) => x.company)).size;
-    $("#stat-tools").textContent = D.tools.length;
+    $("#about-text").textContent = t(p.about);
 
     document.documentElement.lang = lang;
     $$(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
@@ -96,24 +83,26 @@
     });
   }
 
-  function renderSteps(boxId, items, map) {
+  // work experience and education: one card per entry, two columns
+  function renderEntries(boxId, items, map) {
     const box = $(boxId);
     box.replaceChildren();
-    items.forEach((item) => {
+    items.forEach((item, i) => {
       const r = map(item);
-      // the current job gets a pulsing dot
-      const li = el("li", `step reveal${item.end === null ? " now" : ""}`);
+      // the current job gets a pulsing dot in front of its date
+      const li = el("li", `entry reveal${item.end === null ? " now" : ""}`);
+      li.style.setProperty("--i", i % 2);
       li.append(
-        el("span", "step-date", fmtRange(item.start, item.end)),
+        el("span", "entry-date", fmtRange(item.start, item.end)),
         el("h3", null, r.title),
-        el("p", "step-where", r.where),
+        el("p", "entry-where", r.where),
         el("p", null, r.desc)
       );
       box.append(li);
     });
   }
 
-  // training and certifications, newest first
+  // training and certifications, newest first; a row with a url opens the certificate
   function renderCerts() {
     const box = $("#cert-list");
     box.replaceChildren();
@@ -122,17 +111,28 @@
       .forEach((c, i) => {
         const li = el("li", "cert-row");
         li.style.setProperty("--i", i);
+        const inner = el(c.url ? "a" : "div", "cert-inner");
         const info = el("div");
         info.append(el("h3", null, c.name));
         if (c.issuer) info.append(el("p", null, c.issuer));
-        li.append(el("span", "cert-date", fmtMonth(c.date)), info);
+        inner.append(el("span", "cert-date", fmtMonth(c.date)), info);
+        if (c.url) {
+          inner.href = c.url;
+          inner.target = "_blank";
+          inner.rel = "noopener";
+          inner.title = ui("certs.open");
+          inner.setAttribute("aria-label", `${ui("certs.open")}: ${c.name}`);
+          li.append(inner, el("span", "cert-arrow", "↗"));
+        } else {
+          li.append(inner);
+        }
         box.append(li);
       });
   }
 
   function renderLists() {
-    renderSteps("#exp-list", D.experience, (x) => ({ title: x.role, where: x.company, desc: t(x.desc) }));
-    renderSteps("#edu-list", D.education, (x) => ({ title: t(x.title), where: x.school, desc: t(x.desc) }));
+    renderEntries("#exp-list", D.experience, (x) => ({ title: x.role, where: x.company, desc: t(x.desc) }));
+    renderEntries("#edu-list", D.education, (x) => ({ title: t(x.title), where: x.school, desc: t(x.desc) }));
     renderCerts();
 
     $("#skills").replaceChildren(
@@ -161,33 +161,6 @@
     if (!reduceMotion) scrub();
   }
 
-  // ---------- count-up for the numbers under the hero ----------
-  function setupCountUp() {
-    const box = $(".stats");
-    if (reduceMotion || !box) return;
-    const so = new IntersectionObserver(
-      (entries) => {
-        if (!entries[0].isIntersecting) return;
-        so.disconnect();
-        $$(".stat strong").forEach((n) => {
-          const m = n.textContent.match(/^(\d+)(.*)$/);
-          if (!m) return;
-          const target = Number(m[1]);
-          const suffix = m[2];
-          const start = performance.now();
-          const frame = (now) => {
-            const p = Math.min((now - start) / 1300, 1);
-            n.textContent = `${Math.round(target * (1 - Math.pow(1 - p, 3)))}${suffix}`;
-            if (p < 1) requestAnimationFrame(frame);
-          };
-          requestAnimationFrame(frame);
-        });
-      },
-      { threshold: 0.5 }
-    );
-    whenReady.then(() => so.observe(box));
-  }
-
   // ---------- language switch ----------
   const main = $("main");
   $$(".lang button").forEach((b) =>
@@ -209,14 +182,12 @@
 
   $("#year").textContent = new Date().getFullYear();
   renderAll();
-  setupCountUp();
 
   // ---------- loading screen: curtain slides up, then the hero plays its intro ----------
   const loader = $("#loader");
   const finishLoading = () => {
     if (root.classList.contains("ready")) return;
     root.classList.add("ready");
-    markReady();
     if (loader) {
       loader.classList.add("done");
       setTimeout(() => loader.remove(), 1500);
@@ -233,20 +204,14 @@
   const progress = $("#progress");
   const navLinks = new Map($$(".nav-links a").map((a) => [a.getAttribute("href").slice(1), a]));
   const spySections = $$("section[id]");
-  let preferred = null; // the link the visitor clicked last wins when two sections share a row
-  // the section whose top is the last one above 45% of the screen; Experience and Education sit side by side, so the first of them wins
+  // the menu link of the last section whose top is above 45% of the screen
   function updateActiveLink(y) {
     navLinks.forEach((a) => a.classList.remove("active"));
     if (y < 300) return;
     const line = innerHeight * 0.45;
     let current = null;
-    for (const s of spySections) {
-      const top = s.getBoundingClientRect().top;
-      if (top > line) continue;
-      const sameRow = current && Math.abs(top - current.top) <= 4;
-      if (!current || top > current.top + 4 || (sameRow && s.id === preferred)) current = { id: s.id, top };
-    }
-    if (current) navLinks.get(current.id)?.classList.add("active");
+    for (const s of spySections) if (s.getBoundingClientRect().top <= line) current = s.id;
+    if (current) navLinks.get(current)?.classList.add("active");
   }
   let ticking = false;
   const onScroll = () => {
@@ -258,13 +223,9 @@
     if (!reduceMotion) scrub();
     ticking = false;
   };
-  // scroll-linked values: the timeline line fills (--p), cards and the contact card slide (--vp, -1 to 1)
+  // scroll-linked values: cards and the contact card slide (--vp, -1 to 1)
   function scrub() {
     const vh = innerHeight;
-    $$(".steps").forEach((s) => {
-      const r = s.getBoundingClientRect();
-      s.style.setProperty("--p", Math.min(Math.max((vh * 0.65 - r.top) / r.height, 0), 1).toFixed(3));
-    });
     $$(".card, .cta").forEach((c) => {
       const r = c.getBoundingClientRect();
       c.style.setProperty("--vp", Math.min(Math.max((r.top + r.height / 2 - vh / 2) / vh, -1), 1).toFixed(3));
@@ -303,8 +264,6 @@
     const target = id ? document.getElementById(id) : null;
     if (id && !target) return;
     e.preventDefault();
-    preferred = id;
-    updateActiveLink(window.scrollY);
     const offset = target ? parseFloat(getComputedStyle(target).scrollMarginTop) || 0 : 0;
     const y = target ? target.getBoundingClientRect().top + window.scrollY - offset : 0;
     scrollToY(y, Math.min(1200, Math.max(600, Math.abs(y - window.scrollY) * 0.35)));
