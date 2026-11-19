@@ -117,10 +117,11 @@ h1 em { display: block; font-style: normal; color: var(--mint); }
 /* project cards */
 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .card {
-  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .85); border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 14px 34px rgba(14, 26, 36, .05), inset 0 1px 0 rgba(255, 255, 255, .95);
   display: flex; flex-direction: column; transition: transform .25s, box-shadow .25s;
 }
-.card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(14, 26, 36, .1); }
+.card:hover { transform: translateY(-4px); box-shadow: 0 22px 46px rgba(14, 26, 36, .1), inset 0 1px 0 rgba(255, 255, 255, .95); }
 .card-visual { position: relative; height: 190px; padding: 18px 20px; display: flex; flex-direction: column; justify-content: space-between; }
 .v-green { background: linear-gradient(140deg, var(--green), var(--forest)); color: #fff; }
 .v-navy { background: linear-gradient(140deg, var(--navy-2), var(--navy)); color: #fff; }
@@ -128,7 +129,11 @@ h1 em { display: block; font-style: normal; color: var(--mint); }
 .tag { align-self: flex-start; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 999px; background: rgba(255, 255, 255, .22); }
 .v-mint .tag { background: rgba(14, 26, 36, .1); }
 .idx { font-family: var(--display); font-stretch: 125%; font-weight: 900; font-size: 84px; line-height: .8; letter-spacing: -.04em; opacity: .9; align-self: flex-end; }
-.card-body { padding: 22px 24px 26px; display: flex; flex-direction: column; flex: 1; }
+.card-body {
+  padding: 22px 24px 26px; display: flex; flex-direction: column; flex: 1;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .72), rgba(255, 255, 255, .36));
+  -webkit-backdrop-filter: blur(18px) saturate(1.6); backdrop-filter: blur(18px) saturate(1.6);
+}
 .card-meta { margin-bottom: 6px; }
 .year { font-size: 13px; color: var(--muted); font-weight: 500; }
 .card h3 { font-size: 21px; margin-bottom: 10px; }
@@ -137,11 +142,16 @@ h1 em { display: block; font-style: normal; color: var(--mint); }
 
 /* work experience and education: one card per entry, two columns; education sits below experience */
 .entries { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+/* glass: clear white tint with blur, so the page background shows through */
 .entry {
-  position: relative; background: var(--paper); border: 1px solid var(--line); border-radius: 24px; padding: 24px 26px;
-  box-shadow: 0 14px 40px rgba(14, 26, 36, .06); transition: transform .25s, box-shadow .25s, border-color .25s;
+  position: relative; border-radius: 24px; padding: 24px 26px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .72), rgba(255, 255, 255, .36));
+  border: 1px solid rgba(255, 255, 255, .85);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6); backdrop-filter: blur(18px) saturate(1.6);
+  box-shadow: 0 14px 34px rgba(14, 26, 36, .05), inset 0 1px 0 rgba(255, 255, 255, .95);
+  transition: transform .25s, box-shadow .25s, border-color .25s;
 }
-.entry:hover { transform: translateY(-4px); box-shadow: 0 20px 44px rgba(14, 26, 36, .12); border-color: rgba(18, 179, 74, .45); }
+.entry:hover { transform: translateY(-4px); box-shadow: 0 22px 46px rgba(14, 26, 36, .1), inset 0 1px 0 rgba(255, 255, 255, .95); border-color: rgba(18, 179, 74, .45); }
 .entry.now { border-color: rgba(18, 179, 74, .5); }
 .entry-date { display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: var(--green-dark); background: var(--green-soft); padding: 3px 12px; border-radius: 999px; margin-bottom: 12px; }
 .entry.now .entry-date::before { content: ""; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--green); animation: dotPulse 2s ease-out infinite; }
@@ -151,7 +161,7 @@ h1 em { display: block; font-style: normal; color: var(--mint); }
 .entry p:last-child { color: var(--ink-2); margin: 0; font-size: 15px; }
 
 /* about: dark band */
-.about-band { margin-top: clamp(64px, 8vw, 104px); background: var(--navy); color: #fff; border-radius: 48px; padding: clamp(48px, 7vw, 96px) 0; }
+.about-band { background: var(--navy); color: #fff; border-radius: 40px; padding: clamp(28px, 5vw, 64px); }
 .about { display: grid; grid-template-columns: 1fr; gap: 22px; }
 .about h2 { margin: 0; }
 .about .big { font-size: clamp(18px, 2vw, 24px); line-height: 1.6; font-weight: 500; color: #fff; margin: 0; max-width: 62rem; }
@@ -219,7 +229,7 @@ h1 em { display: block; font-style: normal; color: var(--mint); }
   .cards { grid-template-columns: 1fr; }
   .actions .btn { flex: 1 1 auto; justify-content: center; white-space: nowrap; }
   .actions .btn-primary { flex-basis: 100%; }
-  .about-band { border-radius: 32px; }
+  .about-band { border-radius: 28px; }
   .cta { border-radius: 28px; }
   .footer-inner { flex-direction: column; gap: 6px; }
 }
@@ -273,13 +283,7 @@ h1 em {
 @media (max-width: 860px) { .scroll-cue { display: none; } }
 
 /* ---------- skills, languages and certifications: separate cards in one grid ---------- */
-/* colour behind the panels, so the glass has something to blur */
-#toolkit { position: relative; }
-#toolkit::before, #toolkit::after { content: ""; position: absolute; z-index: 0; border-radius: 50%; pointer-events: none; }
-#toolkit::before { width: 460px; height: 460px; left: -90px; top: 14%; background: radial-gradient(closest-side, rgba(18, 179, 74, .42), transparent); }
-#toolkit::after { width: 520px; height: 520px; right: -110px; bottom: 6%; background: radial-gradient(closest-side, rgba(155, 231, 182, .7), transparent); }
-.panels { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.panels::before { content: ""; position: absolute; z-index: -1; width: 360px; height: 360px; left: 38%; top: 46%; border-radius: 50%; background: radial-gradient(closest-side, rgba(155, 231, 182, .55), transparent); pointer-events: none; }
+.panels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .panel-skills { grid-column: span 2; }
 .panel-certs { grid-column: 1 / -1; }
 /* glass: translucent white, blurred backdrop, bright rim */
@@ -388,6 +392,21 @@ a.cert-inner { padding-right: 30px; }
 /* language switch: the page fades out, the text is swapped, then it fades back in */
 main { transition: opacity .25s ease, filter .25s ease; }
 main.swap-out { opacity: 0; filter: blur(6px); }
+
+/* page background: soft colour blobs that drift slowly, plus a faint dot grid. It is fixed to the screen,
+   so the glass (nav, panels) always has colour to blur as you scroll */
+.bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.bg i { position: absolute; display: block; aspect-ratio: 1; border-radius: 50%; }
+.bg .b1 { width: min(72vw, 780px); left: -14vw; top: -10vh; background: radial-gradient(closest-side, rgba(155, 231, 182, .7), transparent); animation: bgA 26s ease-in-out infinite alternate; }
+.bg .b2 { width: min(64vw, 700px); right: -16vw; top: 26vh; background: radial-gradient(closest-side, rgba(18, 179, 74, .28), transparent); animation: bgB 32s ease-in-out infinite alternate; }
+.bg .b3 { width: min(68vw, 740px); left: 16vw; bottom: -24vh; background: radial-gradient(closest-side, rgba(120, 205, 235, .34), transparent); animation: bgC 38s ease-in-out infinite alternate; }
+.bg::after {
+  content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(14, 26, 36, .1) 1px, transparent 1.3px); background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, #000 20%, transparent 88%); mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, #000 20%, transparent 88%);
+}
+@keyframes bgA { to { transform: translate(9vw, 12vh) scale(1.18); } }
+@keyframes bgB { to { transform: translate(-10vw, -9vh) scale(.86); } }
+@keyframes bgC { to { transform: translate(-8vw, -11vh) scale(1.2); } }
 
 /* clear glass has no dark tint, so over light sections the nav text turns dark (app.js sets .nav-light) */
 .nav.nav-light { color: var(--ink); background: linear-gradient(180deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, .3)); border-bottom-color: rgba(255, 255, 255, .8); box-shadow: 0 8px 28px rgba(14, 26, 36, .06), inset 0 1px 0 #fff; }
