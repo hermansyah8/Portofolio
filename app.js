@@ -282,6 +282,19 @@
     history.pushState(null, "", id ? `#${id}` : location.pathname + location.search);
   });
 
+  // ---------- phone menu: the links open in a dropdown ----------
+  const menuBtn = $("#menu-btn");
+  const setMenu = (open) => {
+    navEl.classList.toggle("open", open);
+    menuBtn.setAttribute("aria-expanded", String(open));
+  };
+  menuBtn.addEventListener("click", () => setMenu(!navEl.classList.contains("open")));
+  document.addEventListener("click", (e) => {
+    if (navEl.classList.contains("open") && (e.target.closest(".nav-links a") || !e.target.closest(".nav"))) setMenu(false);
+  });
+  addEventListener("keydown", (e) => e.key === "Escape" && setMenu(false));
+  addEventListener("resize", () => innerWidth > 640 && setMenu(false));
+
   // ---------- micro interaction: ripple where a button is pressed ----------
   document.addEventListener("pointerdown", (e) => {
     if (reduceMotion) return;
