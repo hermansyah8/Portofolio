@@ -213,6 +213,17 @@
     for (const s of spySections) if (s.getBoundingClientRect().top <= line) current = s.id;
     if (current) navLinks.get(current)?.classList.add("active");
   }
+  // the nav glass is clear, so its text must follow what is behind it: white on dark sections, dark on light ones
+  const darkSections = $$(".hero, .about-band, .cta, .footer");
+  const navEl = $(".nav");
+  function updateNavTheme() {
+    const y = navEl.getBoundingClientRect().height / 2;
+    const overDark = darkSections.some((s) => {
+      const r = s.getBoundingClientRect();
+      return r.top <= y && r.bottom >= y;
+    });
+    navEl.classList.toggle("nav-light", !overDark);
+  }
   let ticking = false;
   const onScroll = () => {
     const y = window.scrollY;
@@ -220,6 +231,7 @@
     progress.style.transform = `scaleX(${max > 0 ? Math.min(y / max, 1) : 0})`;
     if (!reduceMotion) root.style.setProperty("--py", Math.min(y, 1200));
     updateActiveLink(y);
+    updateNavTheme();
     if (!reduceMotion) scrub();
     ticking = false;
   };

@@ -43,10 +43,11 @@ h2 { font-size: clamp(28px, 3.6vw, 46px); }
 /* glass: translucent dark bar that blurs whatever scrolls under it */
 .nav {
   position: sticky; top: 0; z-index: 20; color: #fff;
-  background: linear-gradient(180deg, rgba(14, 26, 36, .72), rgba(14, 26, 36, .5));
-  -webkit-backdrop-filter: blur(18px) saturate(1.6); backdrop-filter: blur(18px) saturate(1.6);
-  border-bottom: 1px solid rgba(255, 255, 255, .14);
-  box-shadow: 0 10px 30px rgba(14, 26, 36, .16), inset 0 1px 0 rgba(255, 255, 255, .1);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .2), rgba(255, 255, 255, .07));
+  -webkit-backdrop-filter: blur(20px) saturate(1.8); backdrop-filter: blur(20px) saturate(1.8);
+  border-bottom: 1px solid rgba(255, 255, 255, .3);
+  box-shadow: 0 8px 28px rgba(14, 26, 36, .08), inset 0 1px 0 rgba(255, 255, 255, .4);
+  transition: background .3s, color .3s, border-color .3s, box-shadow .3s;
 }
 .nav-inner { display: flex; align-items: center; gap: 32px; height: var(--nav-h); }
 .logo {
@@ -272,12 +273,22 @@ h1 em {
 @media (max-width: 860px) { .scroll-cue { display: none; } }
 
 /* ---------- skills, languages and certifications: separate cards in one grid ---------- */
-.panels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+/* colour behind the panels, so the glass has something to blur */
+#toolkit { position: relative; }
+#toolkit::before, #toolkit::after { content: ""; position: absolute; z-index: 0; border-radius: 50%; pointer-events: none; }
+#toolkit::before { width: 460px; height: 460px; left: -90px; top: 14%; background: radial-gradient(closest-side, rgba(18, 179, 74, .42), transparent); }
+#toolkit::after { width: 520px; height: 520px; right: -110px; bottom: 6%; background: radial-gradient(closest-side, rgba(155, 231, 182, .7), transparent); }
+.panels { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.panels::before { content: ""; position: absolute; z-index: -1; width: 360px; height: 360px; left: 38%; top: 46%; border-radius: 50%; background: radial-gradient(closest-side, rgba(155, 231, 182, .55), transparent); pointer-events: none; }
 .panel-skills { grid-column: span 2; }
 .panel-certs { grid-column: 1 / -1; }
+/* glass: translucent white, blurred backdrop, bright rim */
 .panel {
-  position: relative; overflow: hidden; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
-  box-shadow: 0 14px 40px rgba(14, 26, 36, .07); padding: clamp(22px, 3vw, 36px);
+  position: relative; overflow: hidden; border-radius: var(--radius); padding: clamp(22px, 3vw, 36px);
+  background: linear-gradient(145deg, rgba(255, 255, 255, .7), rgba(255, 255, 255, .38));
+  border: 1px solid rgba(255, 255, 255, .85);
+  -webkit-backdrop-filter: blur(22px) saturate(1.7); backdrop-filter: blur(22px) saturate(1.7);
+  box-shadow: 0 18px 40px rgba(14, 26, 36, .05), inset 0 1px 0 rgba(255, 255, 255, .95), inset 0 -1px 0 rgba(255, 255, 255, .35);
 }
 .panel::after {
   content: ""; position: absolute; right: -80px; top: -110px; width: 280px; height: 280px; border-radius: 50%; pointer-events: none;
@@ -354,7 +365,10 @@ a.cert-inner { padding-right: 30px; }
 .cert-date { transition: background .2s, color .2s; }
 .cert-row:hover .cert-date { background: var(--green); color: #fff; }
 .panel { transition: transform .25s, box-shadow .25s; }
-.panel:hover { transform: translateY(-3px); box-shadow: 0 20px 44px rgba(14, 26, 36, .12); }
+.panel:hover { transform: translateY(-3px); box-shadow: 0 28px 60px rgba(14, 26, 36, .14), inset 0 1px 0 rgba(255, 255, 255, .95), inset 0 -1px 0 rgba(255, 255, 255, .35); }
+.panel .chips li { background: rgba(255, 255, 255, .55); border-color: rgba(255, 255, 255, .9); box-shadow: 0 2px 8px rgba(14, 26, 36, .05); }
+.panel .chips li:hover { background: var(--green); border-color: var(--green); }
+.panel .cert-row, .panel .lang-list li { border-top-color: rgba(14, 26, 36, .08); }
 .chips li { transition: background .2s, border-color .2s, color .2s, transform .2s; }
 .chips li:hover { transform: translateY(-2px); }
 .hero-photo { transition: scale .5s cubic-bezier(.2, .7, .2, 1); }
@@ -374,4 +388,13 @@ a.cert-inner { padding-right: 30px; }
 /* language switch: the page fades out, the text is swapped, then it fades back in */
 main { transition: opacity .25s ease, filter .25s ease; }
 main.swap-out { opacity: 0; filter: blur(6px); }
+
+/* clear glass has no dark tint, so over light sections the nav text turns dark (app.js sets .nav-light) */
+.nav.nav-light { color: var(--ink); background: linear-gradient(180deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, .3)); border-bottom-color: rgba(255, 255, 255, .8); box-shadow: 0 8px 28px rgba(14, 26, 36, .06), inset 0 1px 0 #fff; }
+.nav-light .nav-links { color: var(--ink-2); background: linear-gradient(180deg, rgba(255, 255, 255, .7), rgba(255, 255, 255, .3)); border-color: rgba(255, 255, 255, .9); box-shadow: inset 0 1px 0 #fff, 0 6px 18px rgba(14, 26, 36, .05); }
+.nav-light .nav-links a:hover { color: var(--ink); background: rgba(255, 255, 255, .8); }
+.nav-light .nav-links a.active { color: var(--green-dark); background: #fff; box-shadow: 0 2px 10px rgba(14, 26, 36, .08); }
+.nav-light .lang { background: rgba(255, 255, 255, .55); border-color: rgba(255, 255, 255, .9); box-shadow: inset 0 1px 0 #fff; }
+.nav-light .lang button { color: var(--ink-2); }
+.nav-light .lang button[aria-pressed="true"] { color: #fff; }
 
